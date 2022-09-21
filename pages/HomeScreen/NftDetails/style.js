@@ -397,4 +397,6 @@ export const RightChar = styled.div`
   /* max-width: 568px; */
   }
 `
-export default () => {}
+const CanvasCustom= styled.div`
+`
+export default CanvasCustom
