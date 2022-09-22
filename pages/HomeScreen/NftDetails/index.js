@@ -10,60 +10,63 @@ import {
   ImageBorder,
   ContainerImageNft,
   ImageNft,
-  NFT2D
+  NFT2D,
 } from './style'
 import NFT3DNew from '../NFT3DNew'
 import MarketplaceButton from '../Components/Button'
 import Image from 'next/image'
 import Media from 'react-media'
+import Link from 'next/Link'
+import Router from 'next/router'
+import MoreCollection from '../MoreCollection'
 const NftDetails = (props) => {
   const [view3D, setView3D] = useState(false)
-  const [widthRight, setWidthRight] = useState(0)
-  const [heRight, setHeRight] = useState(0)
-  const widthRRef = useRef(0)
-  const [widthScreen, setWidthScreen] = useState(0)
-
+  const [isChange, setChange] = useState(false)
+  const [modal3D, setModal3D] = useState('')
+  const [texTure, setTexTure] = useState('second')
   useEffect(() => {
-    window.addEventListener('resize', () => {
-      setWidthScreen(window.innerWidth)
-      if (widthRRef?.current) {
-        if (widthRRef?.current?.clientWidth < 1) {
-        } else {
-          setWidthRight(widthRRef?.current?.clientWidth)
-          setHeRight(widthRRef?.current?.clientHeight)
-        }
-      }
+    if(isChange){
+      Promise.all([
+        setModal3D('../../../3d/keta.fbx'),
+        setTexTure('../../../3d/Guardian_anima.png')
+      ])
+     
+    }else{
+      Promise.all([
+        setModal3D('../../../3d/anami.fbx'),
+        setTexTure('../../../3d/color_anami.png')
+      ])
+      
+    }
+  }, [isChange])
+  const refScroll = useRef(null)
+  const click=()=>{
+    refScroll.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest'
     })
+    setChange(!isChange)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setView3D(false)
     setTimeout(() => {
-      setWidthRight(widthRRef?.current?.clientWidth)
-      setHeRight(widthRRef?.current?.clientHeight)
-    }, 600)
-  }, [])
-  const tokenSymbols = new Array(3)
-  const resetSize = () => {
-    setTimeout(() => {
-      setWidthRight(widthRRef?.current?.clientWidth)
-      setHeRight(widthRRef?.current?.clientHeight)
-    }, 500)
+      refScroll.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      })
+    }, 300)
   }
   const renderDesktop = () => {
-    resetSize()
     return (
-      <MainContainer>
-        {/* <BackContainer>
-          <button onClick={() => {}}>
-            <img src={''} />
-          </button>
-        </BackContainer> */}
-
+      <MainContainer ref={refScroll}>
         <ContainerCharacter>
-          {heRight > 50 && (
-            <DetailsContainer>
+        <DetailsContainer>
               <ImageWrapper>
-                <ImageBorder src={'./khung.png'}/>
+                <ImageBorder src={'./khung.png'} />
                 {view3D ? (
                   <NFT3DNew
-                    size={heRight * 1.5}
+                  modal={modal3D}
+                  isChange={isChange}
+                  texTure={texTure}
                     close3D={() => {
                       setView3D(false)
                     }}
@@ -74,58 +77,35 @@ const NftDetails = (props) => {
                       Click to view 3D Model
                     </ButtonView3D>
                     <ContainerImageNft>
-                        <ImageNft src={'./char2d.png'} />
+                      <ImageNft src={isChange?'./Img/keta_char.png':'./Img/anami_char.png'} />
                     </ContainerImageNft>
                   </NFT2D>
                 )}
               </ImageWrapper>
-              {/* <div
-                style={{
-                  height: heRight,
-                  justifyContent: 'center',
-                }}
-              >
-                {view3D ? (
-                  <>
-                    <NFT3DNew
-                      size={heRight*1.5}
-                      close3D={() => {
-                        setView3D(false)
-                      }}
-                    />
-                  </>
-                ) : (
-                  <ImageWrapper>
-                    <ButtonView3D onClick={() => setView3D(true)}>
-                      Click to view 3D Model
-                    </ButtonView3D>
-                    <img
-                      src={'./char2d.png'}
-                      style={{
-                        height: '60%',
-                      }}
-                    />
-                  </ImageWrapper>
-                )}
-              </div> */}
             </DetailsContainer>
-          )}
+         
           <RightChar>
             <img
-              ref={widthRRef}
-              src={'./rightNew.png'}
+              src={isChange?'./Img/right_keta.png':'./rightNew.png'}
               style={{
                 width: '100%',
               }}
             />
           </RightChar>
         </ContainerCharacter>
-        <img src={'./bottom.png'} style={{ width: '100%', marginTop: 20 }} />
+        <img 
+   
+        src={!isChange?'./Img/about_keta.png':'./Img/about_anami.png'} 
+        style={{ width: '100%', marginTop: 20 }} 
+        />
+        <MoreCollection 
+        src={!isChange?'./Img/keta_more.png':'./Img/anami_more.png'}
+        onCLick={click}
+        />
       </MainContainer>
     )
   }
   const renderMobile = () => {
-    resetSize()
     return (
       <MainContainer>
         {/* <BackContainer>
@@ -135,43 +115,38 @@ const NftDetails = (props) => {
       </BackContainer> */}
 
         <ContainerCharacter>
-          {widthRight > 100 && (
-            <DetailsContainer height={widthRight - 10}>
-              <div
-                style={{
-                  height: widthRight - 10,
-                  justifyContent: 'center',
-                }}
-              >
-                {view3D ? (
-                  <>
-                    <NFT3DNew
-                      size={heRight * 1.5 - 10}
-                      close3D={() => {
-                        setView3D(false)
-                      }}
-                    />
-                  </>
-                ) : (
-                  <ImageWrapper>
-                    <ButtonView3D onClick={() => setView3D(true)}>
-                      Click to view 3D Model
-                    </ButtonView3D>
-                    <img
-                      src={'./char2d.png'}
-                      style={{
-                        height: '59%',
-                      }}
-                    />
-                  </ImageWrapper>
-                )}
-              </div>
-            </DetailsContainer>
-          )}
+          <DetailsContainer>
+            <div
+              style={{
+                justifyContent: 'center',
+              }}
+            >
+              {view3D ? (
+                <>
+                  <NFT3DNew
+                    close3D={() => {
+                      setView3D(false)
+                    }}
+                  />
+                </>
+              ) : (
+                <ImageWrapper>
+                  <ButtonView3D onClick={() => setView3D(true)}>
+                    Click to view 3D Model
+                  </ButtonView3D>
+                  <img
+                    src={'./char2d.png'}
+                    style={{
+                      height: '59%',
+                    }}
+                  />
+                </ImageWrapper>
+              )}
+            </div>
+          </DetailsContainer>
 
           <RightChar>
             <img
-              ref={widthRRef}
               src={'./BottomMobile.png'}
               style={{
                 width: '100%',

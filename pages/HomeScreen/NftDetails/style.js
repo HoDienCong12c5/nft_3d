@@ -416,7 +416,7 @@ export const ContainerCharacter = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-
+  padding-left: 5px;
   @media screen and (max-width: 568px) {
     flex-flow: column wrap;
     align-items: center;

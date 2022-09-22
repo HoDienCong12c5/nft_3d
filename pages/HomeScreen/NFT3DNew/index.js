@@ -9,8 +9,9 @@ import { LoadingOutlined } from '@ant-design/icons'
 const Scene = ({
   isLoad,
   setIsLoad,
-  modal = '../../../Minion_Devil_Anim_Compose_V01.fbx',
-  textTure = '../../../basicColor.png',
+  modal ,
+  textTure = '../../../Textures_Web/Angle_ANIMA.png',
+  isChange
 }) => {
   const propellerMesh = useRef()
   const listAction = useRef([])
@@ -19,6 +20,7 @@ const Scene = ({
   const material = new THREE.MeshLambertMaterial({
     lightMap: colorMap,
     map: colorMap,
+    // lightMapIntensity:0.2
   })
   const fbx = useFBX(modal)
   // const gltf=useGLTF('../../../Guardian.glb')
@@ -35,7 +37,7 @@ const Scene = ({
   }, [])
   useEffect(() => {
     if (!isLoad) {
-      actions[getNameAction(1)]?.fadeIn(0.5)?.play()
+      actions[getNameAction(7)]?.fadeIn(0.5)?.play()
       const x =listAction.current.map((item, index) =>{
         // return actions[getNameAction(index)]?.fadeIn(0.5)?.play()
       })
@@ -66,12 +68,18 @@ const Scene = ({
     <mesh ref={propellerMesh}>
       {/* <axesHelper /> */}
       {/* <primitive object={gltf} scale={0.033} /> */}
-      <primitive object={fbx} scale={0.035} />
+      <primitive object={fbx} scale={0.015} />
     </mesh>
   )
 }
 
-const NFT3D = ({ nftId, close3D }) => {
+const NFT3D = ({ 
+  nftId, 
+  close3D,
+  modal= '../../../Angels_Anim_Composed_690MB.fbx', 
+  texTure = '../../../Textures_Web/Angle_ANIMA.png',
+  isChange
+}) => {
   const [isLoad, setIsLoad] = useState(true)
   const [isLoadServer, setIsLoadServer] = useState(true)
   const [data3D, setData3D] = useState(null)
@@ -106,16 +114,17 @@ const NFT3D = ({ nftId, close3D }) => {
                 rotation={[100, 10, 0]}
                 position={[10, 1, 1000]}
                 intensity={0.2}
-              />
-              <ambientLight intensity={0.1} />
-             
-                      
-              <Scene isLoad={isLoad} setIsLoad={setIsLoad} />
+              />     
+              <Scene 
+              isChange={isChange}
+              modal={modal}
+              textTure={texTure}
+              isLoad={isLoad} setIsLoad={setIsLoad} />
 
                       
               <OrbitControls
                 target0={[0, 1, 0]}
-                enab leZoom={false}
+                enableZoom={false}
                 target={[0, 1, 0]}
                 enablePan={false}
                 // minPolarAngle={Math.PI / 2}
