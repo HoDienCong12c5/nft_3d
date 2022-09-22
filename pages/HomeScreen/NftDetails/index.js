@@ -16,67 +16,68 @@ import NFT3DNew from '../NFT3DNew'
 import MarketplaceButton from '../Components/Button'
 import Image from 'next/image'
 import Media from 'react-media'
-
+import data from './data'
 import MoreCollection from '../MoreCollection'
+const KEY={
+  anami:'anami',
+  keta:'keta',
+  angles:'angles'
+}
+
 const NftDetails = (props) => {
   const [view3D, setView3D] = useState(false)
   const [isChange, setChange] = useState(false)
+  const [itemSelected, setItemSelected] = useState(KEY.anami)
   const [modal3D, setModal3D] = useState('')
   const [texTure, setTexTure] = useState('second')
   useEffect(() => {
-    if(isChange){
+    setItemSelected(KEY.anami)
+  }, [])
+
+  useEffect(() => {
+    if(itemSelected){
       Promise.all([
-        setModal3D('../../../3d/keta.fbx'),
-        setTexTure('../../../3d/Guardian_anima.png')
+        setModal3D(data[itemSelected].fbx), 
+        setTexTure(data[itemSelected].texTure)
       ])
-     
-    }else{
-      Promise.all([
-        setModal3D('../../../3d/anami.fbx'),
-        setTexTure('../../../3d/color_anami.png')
-      ])
-      
     }
-  }, [isChange])
-  const refScroll = useRef(null)
-  const click=()=>{
-    refScroll.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'nearest'
-    })
+  },[itemSelected])
+  const click=(key)=>{
+    console.log(key);
     setChange(!isChange)
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-    setView3D(false)
     setTimeout(() => {
-      refScroll.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest'
-      })
-    }, 300)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+
+    },300)
+    setView3D(false)
+    setItemSelected(key)
   }
   const renderDesktop = () => {
     return (
-      <MainContainer ref={refScroll}>
+      <MainContainer >
         <ContainerCharacter>
         <DetailsContainer>
               <ImageWrapper>
                 <ImageBorder src={'./khung.png'} />
                 {view3D ? (
-                  <NFT3DNew
-                  modal={modal3D}
-                  isChange={isChange}
-                  texTure={texTure}
-                    close3D={() => {
-                      setView3D(false)
-                    }}
-                  />
+                  
+                    itemSelected && <NFT3DNew
+                    keyName={itemSelected}
+                    modal={modal3D}
+                    isChange={isChange}
+                    texTure={texTure}
+                      close3D={() => {
+                        setView3D(false)
+                      }}
+                    />
+                  
                 ) : (
                   <NFT2D>
                     <ButtonView3D onClick={() => setView3D(true)}>
                       Click to view 3D Model
                     </ButtonView3D>
                     <ContainerImageNft>
-                      <ImageNft src={isChange?'./Img/keta_char.png':'./Img/anami_char.png'} />
+                      <ImageNft src={data[itemSelected].imgChar} />
                     </ContainerImageNft>
                   </NFT2D>
                 )}
@@ -85,7 +86,7 @@ const NftDetails = (props) => {
          
           <RightChar>
             <img
-              src={isChange?'./Img/right_keta.png':'./rightNew.png'}
+              src={data[itemSelected].imgRight}
               style={{
                 width: '100%',
               }}
@@ -93,13 +94,13 @@ const NftDetails = (props) => {
           </RightChar>
         </ContainerCharacter>
         <img 
-   
-        src={!isChange?'./Img/about_keta.png':'./Img/about_anami.png'} 
+  
+        src={data[itemSelected].imgAbout} 
         style={{ width: '100%', marginTop: 20 }} 
         />
         <MoreCollection 
-        src={!isChange?'./Img/keta_more.png':'./Img/anami_more.png'}
-        onCLick={click}
+          list={data[itemSelected].listMore}
+          onCLick={click}
         />
       </MainContainer>
     )

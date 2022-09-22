@@ -22,7 +22,7 @@ export const MainContainer = styled.div`
 `
 
 export const DetailsContainer = styled.div`
-  width:38%;
+  width:40%;
   display: flex;
   flex-flow: column wrap;
   justify-content: center;

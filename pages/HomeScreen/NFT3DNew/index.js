@@ -5,22 +5,26 @@ import * as THREE from 'three'
 import styled from 'styled-components'
 import { Spin } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
-
+const KEY={
+  anami:'anami',
+  keta:'keta',
+  angles:'angles'
+}
 const Scene = ({
   isLoad,
   setIsLoad,
   modal ,
   textTure = '../../../Textures_Web/Angle_ANIMA.png',
-  isChange
+  isChange,
+  keyName
 }) => {
   const propellerMesh = useRef()
   const listAction = useRef([])
-
   const colorMap = useLoader(THREE.TextureLoader, textTure)
   const material = new THREE.MeshLambertMaterial({
     lightMap: colorMap,
     map: colorMap,
-    // lightMapIntensity:0.2
+    lightMapIntensity:keyName===KEY.anami?1:keyName===KEY.angles ?0.5:0.2
   })
   const fbx = useFBX(modal)
   // const gltf=useGLTF('../../../Guardian.glb')
@@ -44,9 +48,6 @@ const Scene = ({
       // Promise.all(x)
     }
   }, [actions, isLoad])
-  console.log('====================================');
-  console.log(listAction.current);
-  console.log('====================================');
   const init = async () => {
     fbx?.traverse((ob) => {
       ob.material = material
@@ -67,8 +68,7 @@ const Scene = ({
   return (
     <mesh ref={propellerMesh}>
       {/* <axesHelper /> */}
-      {/* <primitive object={gltf} scale={0.033} /> */}
-      <primitive object={fbx} scale={0.015} />
+      <primitive object={fbx} scale={keyName===KEY.anami?0.035:keyName===KEY.keta?0.015:0.016} />
     </mesh>
   )
 }
@@ -78,7 +78,8 @@ const NFT3D = ({
   close3D,
   modal= '../../../Angels_Anim_Composed_690MB.fbx', 
   texTure = '../../../Textures_Web/Angle_ANIMA.png',
-  isChange
+  isChange,
+  keyName
 }) => {
   const [isLoad, setIsLoad] = useState(true)
   const [isLoadServer, setIsLoadServer] = useState(true)
@@ -90,7 +91,7 @@ const NFT3D = ({
     }
     close3D()
   }
-
+  console.log({keyName})
   return (
     <Container>
       <Close3D onClick={isLoad ? null : () => closeCanvas()}>
@@ -115,7 +116,11 @@ const NFT3D = ({
                 position={[10, 1, 1000]}
                 intensity={0.2}
               />     
+              {
+                keyName!==KEY.anami && <ambientLight intensity={keyName===KEY.keta? 0.3:0}/>
+              }
               <Scene 
+              keyName={keyName}
               isChange={isChange}
               modal={modal}
               textTure={texTure}
