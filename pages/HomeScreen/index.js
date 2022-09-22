@@ -13,6 +13,7 @@ import HomeContainer, {
 } from './styled'
 import Media from 'react-media'
 import NFT3DNew from './NFT3DNew'
+import NFT from './NftDetails'
 const Home = () => {
   return (
     <>
@@ -24,7 +25,7 @@ const Home = () => {
           // return renderDesktop()
         }}
       </Media> */}
-      <NFT3DNew />
+      <NFT />
     </>
   )
 }
