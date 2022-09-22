@@ -22,11 +22,47 @@ export const MainContainer = styled.div`
 `
 
 export const DetailsContainer = styled.div`
-  background-image: url('khung.png');
-  background-size: contain;
-  align-items: 'center';
-  height:${props => `${props.height-1}px`};
-  width: ${props => `${props.height }px`};
+  width:38%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  border-radius: 16px;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`
+export const ImageBorder = styled.img`
+   width: 100%;
+  height: 100%;
+  position: absolute;
+`
+export const ContainerImageNft = styled.div`
+  /* height: 80%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    height: unset;
+  }
+`
+export const ImageNft = styled.img`
+  margin-top: 16px;
+  max-height: 90%;
+  max-width: 45%;
+  @media screen and (max-width: 768px) {
+    /* max-width: 80%; */
+    max-height: 100%;
+  }
+`
+export const NFT2D = styled.div`
+  text-align: center;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  padding: 15px;
 `
 
 export const LeftDetailsContainer = styled.div`
@@ -80,21 +116,15 @@ export const BackContainer = styled.div`
 `
 
 export const ImageWrapper = styled.div`
+   height: 100%;
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
+  padding: 5px;
+  position: relative;
   flex-flow: column wrap;
-  /* gap: 20px; */
-  height: inherit;
-  justify-content: space-around;
-  padding: 0px 0px 15px 0px;
-  img {
-    max-width: 90%;
-  }
-  @media (max-width: 768px) {
-    margin-bottom: 20px;
-    gap: 0px;
-  }
+  border-radius: 16px;
 `
 
 export const NftName = styled.div`
@@ -362,7 +392,6 @@ export const Margin = styled.div`
 `
 
 export const ButtonView3D = styled(Button)`
-  max-width: 60%;
   border-radius: 8px;
   text-align: center;
   color: #BC9CF3;
@@ -392,7 +421,8 @@ export const ContainerCharacter = styled.div`
 export const RightChar = styled.div`
   width: 57%;
   /* display:none; */
-@media screen and (max-width: 568px) {
+@media screen and (max-width: 768px) {
+  margin-top: 15px;
   width: 100%;
   /* max-width: 568px; */
   }

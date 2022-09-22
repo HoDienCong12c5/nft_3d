@@ -7,6 +7,10 @@ import {
   ContainerCharacter,
   ButtonView3D,
   RightChar,
+  ImageBorder,
+  ContainerImageNft,
+  ImageNft,
+  NFT2D
 } from './style'
 import NFT3DNew from '../NFT3DNew'
 import MarketplaceButton from '../Components/Button'
@@ -18,18 +22,17 @@ const NftDetails = (props) => {
   const [heRight, setHeRight] = useState(0)
   const widthRRef = useRef(0)
   const [widthScreen, setWidthScreen] = useState(0)
- 
+
   useEffect(() => {
     window.addEventListener('resize', () => {
       setWidthScreen(window.innerWidth)
-      if(widthRRef?.current){
+      if (widthRRef?.current) {
         if (widthRRef?.current?.clientWidth < 1) {
         } else {
           setWidthRight(widthRRef?.current?.clientWidth)
           setHeRight(widthRRef?.current?.clientHeight)
         }
       }
-      
     })
     setTimeout(() => {
       setWidthRight(widthRRef?.current?.clientWidth)
@@ -37,7 +40,7 @@ const NftDetails = (props) => {
     }, 600)
   }, [])
   const tokenSymbols = new Array(3)
-  const resetSize = ()=>{
+  const resetSize = () => {
     setTimeout(() => {
       setWidthRight(widthRRef?.current?.clientWidth)
       setHeRight(widthRRef?.current?.clientHeight)
@@ -55,8 +58,28 @@ const NftDetails = (props) => {
 
         <ContainerCharacter>
           {heRight > 50 && (
-            <DetailsContainer height={heRight}>
-              <div
+            <DetailsContainer>
+              <ImageWrapper>
+                <ImageBorder src={'./khung.png'}/>
+                {view3D ? (
+                  <NFT3DNew
+                    size={heRight * 1.5}
+                    close3D={() => {
+                      setView3D(false)
+                    }}
+                  />
+                ) : (
+                  <NFT2D>
+                    <ButtonView3D onClick={() => setView3D(true)}>
+                      Click to view 3D Model
+                    </ButtonView3D>
+                    <ContainerImageNft>
+                        <ImageNft src={'./char2d.png'} />
+                    </ContainerImageNft>
+                  </NFT2D>
+                )}
+              </ImageWrapper>
+              {/* <div
                 style={{
                   height: heRight,
                   justifyContent: 'center',
@@ -84,7 +107,7 @@ const NftDetails = (props) => {
                     />
                   </ImageWrapper>
                 )}
-              </div>
+              </div> */}
             </DetailsContainer>
           )}
           <RightChar>
@@ -92,7 +115,7 @@ const NftDetails = (props) => {
               ref={widthRRef}
               src={'./rightNew.png'}
               style={{
-                width: '100%'
+                width: '100%',
               }}
             />
           </RightChar>
@@ -103,67 +126,68 @@ const NftDetails = (props) => {
   }
   const renderMobile = () => {
     resetSize()
-    return (<MainContainer>
-      {/* <BackContainer>
+    return (
+      <MainContainer>
+        {/* <BackContainer>
         <button onClick={() => {}}>
           <img src={''} />
         </button>
       </BackContainer> */}
 
-      <ContainerCharacter>
-        {
-          widthRight >100 && <DetailsContainer height={widthRight -10}>
-          <div
-            style={{
-              height: widthRight -10,
-              justifyContent: 'center',
-            }}
-          >
-            {view3D ? (
-              <>
-                <NFT3DNew
-                  size={(heRight*1.5) -10}
-                  close3D={() => {
-                    setView3D(false)
-                  }}
-                />
-              </>
-            ) : (
-              <ImageWrapper>
-                <ButtonView3D onClick={() => setView3D(true)}>
-                  Click to view 3D Model
-                </ButtonView3D>
-                <img
-                  src={'./char2d.png'}
-                  style={{
-                    height: '59%',
-                  }}
-                />
-              </ImageWrapper>
-            )}
-          </div>
-        </DetailsContainer>
-        }
-       
-        <RightChar>
-          <img
-            ref={widthRRef}
-            src={'./BottomMobile.png'}
-            style={{
-              width: '100%',
-              marginTop: 20,
-            }}
-          />
-        </RightChar>
-      </ContainerCharacter>
-    </MainContainer>
+        <ContainerCharacter>
+          {widthRight > 100 && (
+            <DetailsContainer height={widthRight - 10}>
+              <div
+                style={{
+                  height: widthRight - 10,
+                  justifyContent: 'center',
+                }}
+              >
+                {view3D ? (
+                  <>
+                    <NFT3DNew
+                      size={heRight * 1.5 - 10}
+                      close3D={() => {
+                        setView3D(false)
+                      }}
+                    />
+                  </>
+                ) : (
+                  <ImageWrapper>
+                    <ButtonView3D onClick={() => setView3D(true)}>
+                      Click to view 3D Model
+                    </ButtonView3D>
+                    <img
+                      src={'./char2d.png'}
+                      style={{
+                        height: '59%',
+                      }}
+                    />
+                  </ImageWrapper>
+                )}
+              </div>
+            </DetailsContainer>
+          )}
+
+          <RightChar>
+            <img
+              ref={widthRRef}
+              src={'./BottomMobile.png'}
+              style={{
+                width: '100%',
+                marginTop: 20,
+              }}
+            />
+          </RightChar>
+        </ContainerCharacter>
+      </MainContainer>
     )
   }
   return (
     <>
-    <div >
-      {renderDesktop()}
-    {/* <Media query="(min-width: 569px)">
+      <div>
+        {renderDesktop()}
+        {/* <Media query="(min-width: 569px)">
       {(match) => {
         if (match) {
           return renderDesktop()
@@ -177,10 +201,8 @@ const NftDetails = (props) => {
         }
       }}
     </Media> */}
-    </div>
-    
+      </div>
     </>
-   
   )
 }
 export default NftDetails
