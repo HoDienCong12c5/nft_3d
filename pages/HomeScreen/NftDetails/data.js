@@ -3,7 +3,7 @@ const KEY = {
   keta: 'keta',
   angles: 'angles',
 }
-const listItem = {
+export const data = {
   KEY: {
     anami: 'anami',
     keta: 'keta',
@@ -56,5 +56,12 @@ const listItem = {
     ],
   },
 }
+import React from 'react'
 
-export default listItem
+export const index = () => {
+  return (
+    <div>data</div>
+  )
+}
+
+export default index

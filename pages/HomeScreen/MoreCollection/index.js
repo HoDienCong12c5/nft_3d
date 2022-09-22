@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import data from '../NftDetails/data'
+import {data} from '../NftDetails/data'
 const MoreCollection = ({src, onCLick, list}) => {
   return (
     <div style={{paddingLeft:5, paddingTop:15}} >

@@ -16,7 +16,7 @@ import NFT3DNew from '../NFT3DNew'
 import MarketplaceButton from '../Components/Button'
 import Image from 'next/image'
 import Media from 'react-media'
-import data from './data'
+import {data} from './data'
 import MoreCollection from '../MoreCollection'
 const KEY={
   anami:'anami',
