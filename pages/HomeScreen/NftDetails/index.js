@@ -16,8 +16,7 @@ import NFT3DNew from '../NFT3DNew'
 import MarketplaceButton from '../Components/Button'
 import Image from 'next/image'
 import Media from 'react-media'
-import Link from 'next/Link'
-import Router from 'next/router'
+
 import MoreCollection from '../MoreCollection'
 const NftDetails = (props) => {
   const [view3D, setView3D] = useState(false)
