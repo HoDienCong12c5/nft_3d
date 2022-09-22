@@ -10,11 +10,10 @@ const MoreCollection = ({src, onCLick, list}) => {
       </Title>
       <ListMore >
         {
-          list?.length>0 && list.map(item =>(
+          data.listMore.map((item)=>(
             <ImageNft key={item.key} src={item.img} onClick={()=>onCLick(item.key)}/>
-          ) )
+          ))
         }
-        
       </ListMore>
       </Container>
     </div>

@@ -9,6 +9,20 @@ export const data = {
     keta: 'keta',
     angles: 'angles',
   },
+  listMore:[
+    {
+      key: KEY.anami,
+      img: './Img/anami_more.png',
+    },
+    {
+      key:KEY.keta,
+      img: './Img/keta_more.png',
+    },
+    {
+      key: KEY.angles,
+      img: './Img/angles_more.png',
+    }
+  ],
   anami: {
     fbx: '../../../3d/anami.fbx',
     texTure: '../../../3d/color_anami.png',
@@ -16,16 +30,6 @@ export const data = {
     imgChar: './Img/anami_char.png',
     imgRight: './rightNew.png',
     imgAbout: './Img/about_anami.png',
-    listMore: [
-      {
-        key: KEY.keta,
-        img: './Img/keta_more.png',
-      },
-      {
-        key: KEY.angles,
-        img: './Img/angles_more.png',
-      },
-    ],
   },
   keta: {
     fbx: '../../../3d/keta.fbx',
@@ -33,13 +37,7 @@ export const data = {
     key: KEY.keta,
     imgChar: './Img/keta_char.png',
     imgRight: './Img/right_keta.png',
-    imgAbout: './Img/about_keta.png',
-    listMore: [
-      {
-        key: KEY.anami,
-        img: './Img/anami_more.png',
-      },
-    ],
+    imgAbout: './Img/about_keta.png'
   },
   angles: {
     key: KEY.angles,
@@ -47,13 +45,7 @@ export const data = {
     texTure: '../../../3d/Textures_angles/Angle_EARTH.png',
     imgChar: './Img/angles_char.png',
     imgAbout:'./Img/angles_about.png',
-    imgRight: './Img/angles_right.png',
-    listMore: [
-      {
-        key: KEY.keta,
-        img: './Img/keta_more.png',
-      },
-    ],
+    imgRight: './Img/angles_right.png'
   },
 }
 import React from 'react'
