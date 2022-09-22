@@ -47,12 +47,11 @@ export const ContainerImageNft = styled.div`
   }
 `
 export const ImageNft = styled.img`
-  margin-top: 16px;
   max-height: 90%;
   max-width: 45%;
   @media screen and (max-width: 768px) {
     /* max-width: 80%; */
-    max-height: 100%;
+    max-height: 200px;
   }
 `
 export const NFT2D = styled.div`
@@ -63,7 +62,11 @@ export const NFT2D = styled.div`
   z-index: 10;
   flex-flow: column wrap;
   /* justify-content: space-between; */
-  padding: 15px;
+  padding-top: 5%;
+  @media screen and (max-width: 768px) {
+    /* max-width: 80%; */
+    padding-top: 15px;
+  }
 `
 
 export const LeftDetailsContainer = styled.div`
