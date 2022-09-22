@@ -142,12 +142,15 @@ const antIcon = (
   <LoadingOutlined style={{ fontSize: 40, color: 'white' }} spin />
 )
 const Container = styled.div`
-  margin-top: 15px;
+  margin-top: 5%;
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
+  @media screen and (max-width: 768px) {
+    font-size: 12px;
+  }
 `
 const Close3D = styled.div`
   position: relative;
