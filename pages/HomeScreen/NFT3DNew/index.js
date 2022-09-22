@@ -1,6 +1,6 @@
 import React, { Suspense, useRef, useEffect, useState } from 'react'
 import { Canvas, useLoader } from '@react-three/fiber'
-import { OrbitControls, useFBX, useAnimations } from '@react-three/drei'
+import { OrbitControls, useFBX, useAnimations,useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 import styled from 'styled-components'
 import { Spin } from 'antd'
@@ -21,6 +21,7 @@ const Scene = ({
     map: colorMap,
   })
   const fbx = useFBX(modal)
+  // const gltf=useGLTF('../../../Guardian.glb')
   const { actions } = useAnimations(fbx.animations, propellerMesh)
 
   useEffect(() => {
@@ -34,10 +35,16 @@ const Scene = ({
   }, [])
   useEffect(() => {
     if (!isLoad) {
-      actions[getNameAction(0)]?.fadeIn(0.5)?.play()
+      actions[getNameAction(1)]?.fadeIn(0.5)?.play()
+      const x =listAction.current.map((item, index) =>{
+        // return actions[getNameAction(index)]?.fadeIn(0.5)?.play()
+      })
+      // Promise.all(x)
     }
   }, [actions, isLoad])
-
+  console.log('====================================');
+  console.log(listAction.current);
+  console.log('====================================');
   const init = async () => {
     fbx?.traverse((ob) => {
       ob.material = material
@@ -58,7 +65,8 @@ const Scene = ({
   return (
     <mesh ref={propellerMesh}>
       {/* <axesHelper /> */}
-      <primitive object={fbx} scale={0.033} />
+      {/* <primitive object={gltf} scale={0.033} /> */}
+      <primitive object={fbx} scale={0.035} />
     </mesh>
   )
 }
@@ -78,7 +86,7 @@ const NFT3D = ({ nftId, close3D }) => {
   return (
     <Container>
       <Close3D onClick={isLoad ? null : () => closeCanvas()}>
-        {isLoad ? '3D loading' : 'Click to close modal 3D'}
+        {isLoad ? '3D loading...' : 'Click to close modal 3D'}
         {isLoad && (
           <ContainerLoading>
             <Spin
@@ -99,13 +107,15 @@ const NFT3D = ({ nftId, close3D }) => {
                 position={[10, 1, 1000]}
                 intensity={0.2}
               />
+              <ambientLight intensity={0.1} />
+             
                       
-                      <Scene isLoad={isLoad} setIsLoad={setIsLoad} />
+              <Scene isLoad={isLoad} setIsLoad={setIsLoad} />
 
                       
               <OrbitControls
                 target0={[0, 1, 0]}
-                enableZoom={false}
+                enab leZoom={false}
                 target={[0, 1, 0]}
                 enablePan={false}
                 // minPolarAngle={Math.PI / 2}
@@ -123,16 +133,12 @@ const antIcon = (
   <LoadingOutlined style={{ fontSize: 40, color: 'white' }} spin />
 )
 const Container = styled.div`
-  margin-top: 20px;
+  margin-top: 15px;
   width: 100%;
   height: 100%;
-  min-height: 300px;
   display: flex;
   flex-direction: column;
   position: relative;
-  @media screen and (max-width: 568px) {
-    margin-top: 10px;
-  }
 `
 const Close3D = styled.div`
   position: relative;

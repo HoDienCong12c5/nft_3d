@@ -41,6 +41,7 @@ export const ContainerImageNft = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
   @media screen and (max-width: 768px) {
     height: unset;
   }
@@ -61,7 +62,7 @@ export const NFT2D = styled.div`
   height: 100%;
   z-index: 10;
   flex-flow: column wrap;
-  justify-content: space-around;
+  /* justify-content: space-between; */
   padding: 15px;
 `
 
@@ -125,6 +126,9 @@ export const ImageWrapper = styled.div`
   position: relative;
   flex-flow: column wrap;
   border-radius: 16px;
+  @media screen and (max-width: 768px) {
+    height:300px;
+  }
 `
 
 export const NftName = styled.div`
