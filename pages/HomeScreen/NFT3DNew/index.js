@@ -15,7 +15,7 @@ const Scene = ({
   setIsLoad,
   modal ,
   textTure = '../../../Textures_Web/Angle_ANIMA.png',
-  isChange,
+  intensity = 0.5,
   keyName
 }) => {
   const propellerMesh = useRef()
@@ -24,7 +24,7 @@ const Scene = ({
   const material = new THREE.MeshLambertMaterial({
     lightMap: colorMap,
     map: colorMap,
-    lightMapIntensity:keyName===KEY.anami?1:keyName===KEY.angles ?0.5:0.2
+    lightMapIntensity:intensity
   })
   const fbx = useFBX(modal)
   // const gltf=useGLTF('../../../Guardian.glb')
@@ -91,7 +91,6 @@ const NFT3D = ({
     }
     close3D()
   }
-  console.log({keyName})
   return (
     <Container>
       <Close3D onClick={isLoad ? null : () => closeCanvas()}>
@@ -129,7 +128,7 @@ const NFT3D = ({
                       
               <OrbitControls
                 target0={[0, 1, 0]}
-                enableZoom={false}
+                // enableZoom={false}
                 target={[0, 1, 0]}
                 enablePan={false}
                 // minPolarAngle={Math.PI / 2}

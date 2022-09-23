@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {data} from '../NftDetails/data'
 const MoreCollection = ({src, onCLick, list}) => {
+
   return (
     <div style={{paddingLeft:5, paddingTop:15}} >
  <Container>
@@ -10,10 +11,21 @@ const MoreCollection = ({src, onCLick, list}) => {
       </Title>
       <ListMore >
         {
+          list?.length >0 && list.map((item, index) => (
+            item.models3D?.length>0&& <ContainerImg  key={item.key}>
+              <ImageNft  
+              src={item.image} 
+              onClick={()=>onCLick(index)}
+              />
+            
+            </ContainerImg>
+          ))
+        }
+        {/* {
           data.listMore.map((item)=>(
             <ImageNft key={item.key} src={item.img} onClick={()=>onCLick(item.key)}/>
           ))
-        }
+        } */}
       </ListMore>
       </Container>
     </div>
@@ -42,7 +54,7 @@ const Title = styled.div`
 `
 const ListMore = styled.div`
  /* max-height: 180px; */
- /* display: flex;  */
+ display: flex; 
  flex-flow: row wrap;
  gap:16px; 
  overflow-x: scroll;
@@ -51,10 +63,16 @@ const ListMore = styled.div`
   user-select: none;
 
 `
+const ContainerImg = styled.div`
+  width: 150px;
+  height: 180px;
+  border: 1px solid white;
+  border-radius: 16px;
+`
 const ImageNft = styled.img`
 margin: 5px;
-max-width: 200px;
-max-height: 280px;
+width: 80%;
+height: 80%;
 @media screen and (max-width: 768px) {
   max-width: 150px;
 max-height: 200px;

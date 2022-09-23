@@ -122,6 +122,7 @@ export const BackContainer = styled.div`
 export const ImageWrapper = styled.div`
    height: 100%;
   width: 100%;
+  min-height: 350px;
   display: flex;
   align-items: center;
   justify-content: center;

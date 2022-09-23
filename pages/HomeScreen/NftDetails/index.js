@@ -13,94 +13,107 @@ import {
   NFT2D,
 } from './style'
 import NFT3DNew from '../NFT3DNew'
-import MarketplaceButton from '../Components/Button'
-import Image from 'next/image'
-import Media from 'react-media'
-import {data} from './data'
+import axios from 'axios'
+import { data } from './data'
 import MoreCollection from '../MoreCollection'
-const KEY={
-  anami:'anami',
-  keta:'keta',
-  angles:'angles'
+import Range from '../Edit'
+// import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
+const KEY = {
+  anami: 'anami',
+  keta: 'keta',
+  angles: 'angles'
 }
-
 const NftDetails = (props) => {
   const [view3D, setView3D] = useState(false)
   const [isChange, setChange] = useState(false)
   const [itemSelected, setItemSelected] = useState(KEY.anami)
   const [modal3D, setModal3D] = useState('')
   const [texTure, setTexTure] = useState('second')
+  const [listNFT, setListNFT] = useState([])
+  const [indexNFT, setIndexNFT] = useState(0)
+  const [intensity, setIntensity] = useState(1)
+
   useEffect(() => {
     setItemSelected(KEY.anami)
+    setIndexNFT(0)
   }, [])
-
   useEffect(() => {
-    if(itemSelected){
-      Promise.all([
-        setModal3D(data[itemSelected].fbx), 
-        setTexTure(data[itemSelected].texTure)
-      ])
+    const geAllData = async () => {
+      const res = await axios.get('https://dev-game-api.w3w.app/api/game-characters')
+      if (res.data?.data?.length > 0) {
+        setListNFT(res.data?.data)
+       
+        res.data?.data.map((data) => {
+          if(data?.models3D?.length > 0){
+            setModal3D(data?.models3D[0]),
+            setTexTure(data?.models3D[1])
+            return 0
+          }
+        })
+      }
     }
-  },[itemSelected])
-  const click=(key)=>{
-    console.log(key);
-    setChange(!isChange)
-    setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-
-    },300)
-    setView3D(false)
-    setItemSelected(key)
+    geAllData()
+  }, [])
+  const clickHandel=async (index)=>{
+    Promise.all([
+      setView3D(false),
+      setIndexNFT(index),
+      setModal3D(listNFT[index]?.models3D[0]),
+      setTexTure(listNFT[index]?.models3D[1])
+    ])
+   
   }
+  console.log('=listNFT[index]?.models3D[0]===================');
+  console.log(listNFT[indexNFT]?.models3D[1]);
+  console.log('====================================');
   const renderDesktop = () => {
     return (
       <MainContainer >
         <ContainerCharacter>
-        <DetailsContainer>
-              <ImageWrapper>
-                <ImageBorder src={'./khung.png'} />
-                {view3D ? (
-                  
-                    itemSelected && <NFT3DNew
-                    keyName={itemSelected}
-                    modal={modal3D}
-                    isChange={isChange}
-                    texTure={texTure}
-                      close3D={() => {
-                        setView3D(false)
-                      }}
-                    />
-                  
-                ) : (
+          <DetailsContainer>
+            <ImageWrapper>
+              <ImageBorder src={'./khung.png'} />
+              {view3D ? (
+                itemSelected && <NFT3DNew
+                  keyName={itemSelected}
+                  modal={modal3D}
+                  isChange={isChange}
+                  texTure={texTure}
+                  close3D={() => {
+                    setView3D(false)
+                  }}
+                />
+              ) : (
+
+                listNFT?.length > 0 && (
                   <NFT2D>
                     <ButtonView3D onClick={() => setView3D(true)}>
                       Click to view 3D Model
                     </ButtonView3D>
                     <ContainerImageNft>
-                      <ImageNft src={data[itemSelected].imgChar} />
+                      <ImageNft src={listNFT[indexNFT].image} />
                     </ContainerImageNft>
                   </NFT2D>
-                )}
-              </ImageWrapper>
-            </DetailsContainer>
-         
+                )
+
+              )}
+            </ImageWrapper>
+          </DetailsContainer>
+
           <RightChar>
-            <img
-              src={data[itemSelected].imgRight}
-              style={{
-                width: '100%',
-              }}
-            />
+                 <Range color={'#EB5757'} text={'Slide to transfer'} /> 
+                 <div >shvdfhgsdvfghvgh</div>
           </RightChar>
         </ContainerCharacter>
-        <img 
+        {/* <img 
   
         src={data[itemSelected].imgAbout} 
         style={{ width: '100%', marginTop: 20 }} 
-        />
-        <MoreCollection 
-          list={data[itemSelected].listMore}
-          onCLick={click}
+        /> */}
+        <MoreCollection
+          list={listNFT}
+          onCLick={clickHandel}
         />
       </MainContainer>
     )
