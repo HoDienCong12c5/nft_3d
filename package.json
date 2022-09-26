@@ -21,13 +21,11 @@
     "axios": "^0.27.2",
     "next": "^12.2.5",
     "next-transpile-modules": "^9.0.0",
-    "rc-slider": "^10.0.1",
     "react": "17.0.2",
     "react-device-detect": "^2.2.2",
     "react-dom": "17.0.2",
     "react-media": "^1.10.0",
-    "styled-components": "^5.3.5",
-    "toolcool-range-slider": "^3.0.13"
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "dat.gui": "^0.7.9",

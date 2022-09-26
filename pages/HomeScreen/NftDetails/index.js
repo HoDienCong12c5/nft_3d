@@ -48,7 +48,7 @@ const NftDetails = (props) => {
           if(data?.models3D?.length > 0){
             setIntensity(1)
             setModal3D(data?.models3D[0]),
-            // setModal3D('../../../3d/Guardian_Anim_Compose_v3.fbx')
+            // setModal3D('../../../3d/Guardian_Anim_Compose_v4.fbx')
             setTexTure(data?.models3D[1])
             // setTexTure('https://ipfs.pantograph.app/ipfs/QmNVeViKGa4fi5N89jrTQm1QMfHHQER3WkUGt8CMGt2MjA?filename=Demon_EARTH.png')
             return 0
