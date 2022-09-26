@@ -32,7 +32,7 @@ const NftDetails = (props) => {
   const [texTure, setTexTure] = useState('second')
   const [listNFT, setListNFT] = useState([])
   const [indexNFT, setIndexNFT] = useState(0)
-  const [intensity, setIntensity] = useState(1)
+  const [intensity, setIntensity] = useState(0)
 
   useEffect(() => {
     setItemSelected(KEY.anami)
@@ -46,8 +46,11 @@ const NftDetails = (props) => {
        
         res.data?.data.map((data) => {
           if(data?.models3D?.length > 0){
+            setIntensity(1)
             setModal3D(data?.models3D[0]),
+            // setModal3D('../../../3d/Guardian_Anim_Compose_v3.fbx')
             setTexTure(data?.models3D[1])
+            // setTexTure('https://ipfs.pantograph.app/ipfs/QmNVeViKGa4fi5N89jrTQm1QMfHHQER3WkUGt8CMGt2MjA?filename=Demon_EARTH.png')
             return 0
           }
         })
@@ -64,9 +67,10 @@ const NftDetails = (props) => {
     ])
    
   }
-  console.log('=listNFT[index]?.models3D[0]===================');
-  console.log(listNFT[indexNFT]?.models3D[1]);
-  console.log('====================================');
+  const set=(value)=>{
+    console.log({value});
+    setIntensity(value)
+  }
   const renderDesktop = () => {
     return (
       <MainContainer >
@@ -76,7 +80,9 @@ const NftDetails = (props) => {
               <ImageBorder src={'./khung.png'} />
               {view3D ? (
                 itemSelected && <NFT3DNew
-                  keyName={itemSelected}
+                keyName={listNFT[indexNFT]?.name}
+                intensity={intensity} 
+  
                   modal={modal3D}
                   isChange={isChange}
                   texTure={texTure}
@@ -102,8 +108,22 @@ const NftDetails = (props) => {
           </DetailsContainer>
 
           <RightChar>
-                 <Range color={'#EB5757'} text={'Slide to transfer'} /> 
-                 <div >shvdfhgsdvfghvgh</div>
+          <div>
+                  Name : {listNFT[indexNFT]?.name}
+            </div>
+            <br />
+            <div>
+                  Element : {listNFT[indexNFT]?.element}
+            </div>
+            {
+              intensity >=0 && <Range 
+              color={'#EB5757'} 
+              text={'Slide from 0 to 100%'}
+              intensity={intensity} 
+              setIntensity={set}
+              /> 
+            }
+            
           </RightChar>
         </ContainerCharacter>
         {/* <img 

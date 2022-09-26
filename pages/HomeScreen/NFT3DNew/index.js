@@ -15,17 +15,27 @@ const Scene = ({
   setIsLoad,
   modal ,
   textTure = '../../../Textures_Web/Angle_ANIMA.png',
-  intensity = 0.5,
+  intensity ,
   keyName
 }) => {
+  console.log('====================================');
+  console.log({keyName});
+  console.log('====================================');
   const propellerMesh = useRef()
   const listAction = useRef([])
+  const [color, setColor] = useState(null)
   const colorMap = useLoader(THREE.TextureLoader, textTure)
-  const material = new THREE.MeshLambertMaterial({
-    lightMap: colorMap,
-    map: colorMap,
-    lightMapIntensity:intensity
-  })
+  useEffect(() => {
+    const material = new THREE.MeshLambertMaterial({
+      lightMap: colorMap,
+      map: colorMap,
+      lightMapIntensity:Number(intensity/100) 
+    })
+    setColor(material)
+    // fbx?.traverse((ob) => {
+    //   ob.material = material
+    // })
+  },[intensity])
   const fbx = useFBX(modal)
   // const gltf=useGLTF('../../../Guardian.glb')
   const { actions } = useAnimations(fbx.animations, propellerMesh)
@@ -35,13 +45,13 @@ const Scene = ({
       await init()
       setIsLoad(false)
     }
-    if (fbx) {
+    if (fbx && color) {
       addAni()
     }
-  }, [])
+  }, [color])
   useEffect(() => {
     if (!isLoad) {
-      actions[getNameAction(7)]?.fadeIn(0.5)?.play()
+      // actions[getNameAction(7)]?.fadeIn(0.5)?.play()
       const x =listAction.current.map((item, index) =>{
         // return actions[getNameAction(index)]?.fadeIn(0.5)?.play()
       })
@@ -50,7 +60,7 @@ const Scene = ({
   }, [actions, isLoad])
   const init = async () => {
     fbx?.traverse((ob) => {
-      ob.material = material
+      ob.material = color
     })
     fbx.animations.map((ob, index) => {
       if (!listAction.current.includes(ob.name)) {
@@ -68,7 +78,7 @@ const Scene = ({
   return (
     <mesh ref={propellerMesh}>
       {/* <axesHelper /> */}
-      <primitive object={fbx} scale={keyName===KEY.anami?0.035:keyName===KEY.keta?0.015:0.016} />
+      <primitive object={fbx} scale={keyName==='Minion Devil'?0.035: 0.015} />
     </mesh>
   )
 }
@@ -79,8 +89,11 @@ const NFT3D = ({
   modal= '../../../Angels_Anim_Composed_690MB.fbx', 
   texTure = '../../../Textures_Web/Angle_ANIMA.png',
   isChange,
-  keyName
+  keyName,
+  intensity= 0.5,
+  key
 }) => {
+  console.log({intensity});
   const [isLoad, setIsLoad] = useState(true)
   const [isLoadServer, setIsLoadServer] = useState(true)
   const [data3D, setData3D] = useState(null)
@@ -110,20 +123,30 @@ const NFT3D = ({
           <CanvasCustom id="nft-3d" >
             <Suspense fallback={null}>
             {/* <color attach='background' args={['#d0d0d0']} /> */}
+            <pointLight
+                rotation={[100, 10, 0]}
+                position={[1000, 100, 200]}
+                intensity={0.75}
+              />
               <pointLight
                 rotation={[100, 10, 0]}
-                position={[10, 1, 1000]}
-                intensity={0.2}
-              />     
-              {
-                keyName!==KEY.anami && <ambientLight intensity={keyName===KEY.keta? 0.3:0}/>
-              }
+                position={[-1000, 100, 200]}
+                intensity={0.3}
+              />
+              <pointLight
+                rotation={[100, 10, 0]}
+                position={[-10, 1, -1000]}
+                intensity={0.5}
+              />
               <Scene 
               keyName={keyName}
+              key={key}
               isChange={isChange}
               modal={modal}
               textTure={texTure}
-              isLoad={isLoad} setIsLoad={setIsLoad} />
+              isLoad={isLoad} setIsLoad={setIsLoad} 
+              intensity={intensity}
+              />
 
                       
               <OrbitControls

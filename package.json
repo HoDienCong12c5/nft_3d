@@ -11,6 +11,10 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@mui/icons-material": "^5.10.6",
+    "@mui/material": "^5.10.6",
     "@react-three/drei": "^8.20.2",
     "@react-three/fiber": "^7.0.26",
     "antd": "^4.23.0",
